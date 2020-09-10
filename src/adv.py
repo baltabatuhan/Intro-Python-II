@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -37,11 +38,13 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
+
 # Make a new player object that is currently in the 'outside' room.
 
 # Write a loop that:
 #
 # * Prints the current room name
+
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
 #
@@ -49,3 +52,30 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+player = Player('Zaza', room['outside'])
+
+
+print(player.room.name)
+print(player.room.description)
+
+userInput = input('Movement direction "n,e,s,w" or press "q" for exit')
+
+while userInput != 'q':
+
+    if(userInput not in ['n', 'e', 's', 'w', 'q']):
+        userInput = input('please enter calid input or press q for exit')
+    elif(not hasattr(player.room, f'{userInput}_to') and userInput != 'q'):
+
+        print(userInput)
+        userInput = input(
+            "you can't move to this direction please enter another one or press 'q' for exit ")
+
+    elif(userInput != 'q'):
+
+        player.room = getattr(player.room, f'{userInput}_to')
+        print(player.room.name)
+        print(player.room.description)
+
+        userInput = input('Movement direction "n,e,s,w" or press "q" for exit')
+
+print('done')
